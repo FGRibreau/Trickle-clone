@@ -1,0 +1,219 @@
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code,
+del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var,
+b, i,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video {
+    margin:0;
+    padding:0;
+    border:0;
+    outline:0;
+    font-size:100%;
+    vertical-align:baseline;
+    background:transparent;
+}
+
+body {
+    line-height:1;
+	background-color:#111;
+	color:#ffffff;
+	font-family:'Droid Serif';
+	font-size:100%;
+}
+
+a {
+    margin:0;
+    padding:0;
+    font-size:100%;
+    vertical-align:baseline;
+    background:transparent;
+}
+
+input, select {
+    vertical-align:middle;
+}
+
+.iForm{
+	width:75%;
+	margin:10px auto;
+}
+
+	form.iForm fieldset {
+	  margin-bottom: 10px;
+	}
+
+	form.iForm legend {
+		padding: 0 2px;
+		font-weight: bold;
+		font-family:'Droid Sans';
+		text-align: center;
+		width: 100%;
+	}
+	form.iForm label {
+	  display: inline-block;
+	  line-height: 1.8;
+	  vertical-align: top;
+	}
+	form.iForm fieldset ol {
+	  margin: 0;
+	  padding: 0;
+	  text-align: center;
+	}
+	form.iForm fieldset li {
+	  list-style: none;
+	  padding: 0 0 10px 0;
+	  margin: 0;
+	}
+	form.iForm fieldset fieldset {
+	  border: none;
+	  margin: 3px 0 0;
+	}
+	form.iForm fieldset fieldset legend {
+	  padding: 0 0 5px;
+	  font-weight: normal;
+	}
+	form.iForm fieldset fieldset label {
+	  display: block;
+	  width: auto;
+	}
+	form.iForm em {
+	  font-weight: bold;
+	  font-style: normal;
+	  color: #f00;
+	}
+	form.iForm label {
+		font-family: 'Arimo', serif;
+		width: 100%; /* Width of labels */
+		font-size:30px;
+		font-weight:bold;
+		text-align:center;
+	}
+	
+	form.iForm input{
+		width:100%;
+		font-size:10px;
+		display:block;
+		border:1px solid #DDD;
+		padding:10px;
+	}
+	form.iForm fieldset fieldset label {
+	  margin-left: 123px; /* Width plus 3 (html space) */
+	}
+
+	.iForm .pSubmit{
+		text-align:center;
+		width:100%;
+	}
+	
+/* tweets */
+.tweets{
+	width:100%;
+	overflow:hidden;
+}
+.tweets ul{
+	display:none;
+    font-size: 200%;
+    list-style: none outside none;
+    width: 200%;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	
+	font-family: 'Arimo', serif;
+}
+
+	.tweets li{
+		display:table-cell;
+		-moz-box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+		box-sizing: border-box;
+		overflow:hidden;
+	}
+
+  	.tweets quote{
+  		font-size: 32px;
+  		font-weight: 700;
+  		letter-spacing: -0.05em;
+  		word-spacing: -0.008em;
+  		line-height: 1.02em;
+  		word-wrap: break-word;
+  		margin:10px;
+  		display:block;
+  	}
+	
+  	.tweets p{
+  		font-size: 35%;
+  		text-align: right;
+  		margin-top:10px;
+  		font-size: 18px;
+  		font-weight:250;
+  		padding-right:10px;
+  		font-weight: normal;
+  	}
+	
+/*
+Source:http://css3wizardry.com/2010/07/26/iphone-buttons-without-border-images/
+*/
+.plasticButton {
+	cursor: pointer;
+	margin: 5px;
+	text-align: center;
+	color: #ffffff;
+	font: bold 16px/20px Helvetica, sans-serif;
+	text-decoration: none;
+	text-shadow: 1px 1px 1px #000;
+	text-transform: capitalize;
+	display: inline-block;
+	font-size: 16px;
+	border-width: 0 14px;
+	padding: 12px 0px;
+	min-width: 110px;
+}
+
+  .plasticButton.blue {
+  	display: inline-block;
+  	-webkit-border-radius: 12px;
+  	-webkit-box-shadow: 2px 2px 3px #999; 
+  	border: solid 3px rgb(110,110,110);
+  	background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(86,213,255,0.90)), color-stop(0.5, rgba(59,145,255,0.70)), color-stop(0.5, rgba(0,114,255,0.70)), to(rgba(0,133,255,0.80))); 
+  	color: #fff;
+  	text-shadow: #000 0 1px 0;
+  	font: bold 16px/20px Helvetica, Sans-serif;
+  	padding: 9px 11px;
+  }
+    .plasticButton.blue:hover, .plasticButton.white.hover {
+    	background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(135,148,203,0.85)), color-stop(0.5, rgba(34,56,159,0.75)), color-stop(0.5, rgba(0,27,145,0.75)), to(rgba(2,59,152,0.65))); 
+    	color: #fff;
+    	text-shadow: #000 0 1px 0;
+    	-webkit-box-shadow: inset rgba(207,207,255,0.75) 0px 1px 1px;
+    }
+
+  .plasticButton.black {
+  	display: inline-block;
+  	-webkit-border-radius: 12px;
+  	-webkit-box-shadow: 2px 2px 3px #999;
+  	border: solid 3px rgb(110,110,110);
+  	background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(74,74,74,0.85)), color-stop(0.5, rgba(20,20,20,0.75)), color-stop(0.5, rgba(2,2,2,0.75)), to(rgba(14,14,14,0.75)));
+  	color: #fff;
+  	text-shadow: #000 0 1px 0;
+  	font: bold 16px/20px Helvetica, Sans-serif;
+  	padding: 9px 11px;
+  }
+
+    .plasticButton.black:hover, .plasticButton.black.hover {
+    	background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(135,148,203,0.85)), color-stop(0.5, rgba(34,56,159,0.75)), color-stop(0.5, rgba(0,27,145,0.75)), to(rgba(2,59,152,0.65)));
+    	color: #fff;
+    	text-shadow: #000 0 1px 0;
+    	-webkit-box-shadow: inset rgba(207,207,255,0.75) 0px 1px 1px;
+    }
+
+.info{
+	margin-top:10px;
+	text-align:center;
+}
