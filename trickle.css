@@ -146,6 +146,11 @@ input, select {
   		margin:10px;
   		display:block;
   	}
+  	
+  	  .tweets quote a{
+    	  color: #3878B8;
+    	  text-decoration:none;
+    	}
 	
   	.tweets p{
   		font-size: 35%;
@@ -156,6 +161,8 @@ input, select {
   		padding-right:10px;
   		font-weight: normal;
   	}
+  	
+  	
 	
 /*
 Source:http://css3wizardry.com/2010/07/26/iphone-buttons-without-border-images/

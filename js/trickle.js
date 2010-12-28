@@ -109,7 +109,7 @@ var Trickle = {
 		}
 		
 		this.$tweets.find('li:last').html($.tmpl("tweetTpl", {
-			  text:       this._ucFirst(this._tweets[this.i].text)
+			  text:       this._formatTweetText(this._tweets[this.i].text)
 			, screen_name:this._tweets[this.i].from_user
 		}));
 		
@@ -118,7 +118,23 @@ var Trickle = {
 		return true;
 	},
 	
-	_replaceTweet:function(){
+	_formatTweetText:function(txt){
+	  
+  	txt = this._preg_replace_callback('/(https?\\:\\/\\/[^\\s]*)/ig', function _callback_link(matches){
+    	var dom = matches[0].toLowerCase()
+    					.replace('http://','')
+    					.replace('www.','');
+
+    	return '<a href="'+matches[0]+'">'+dom.substr(0,dom.indexOf('/'))+'</a>';
+  	},txt);
+
+  	txt = txt.replace(/(\#[^\s,\.\:\)]*)/ig,'<strong class="st">$1</strong>');
+  	txt = txt.replace(/(\@([^\s,\.\:\)\#]*))/ig,'<a href="http://twitter.com/$2" class="twScreenname" alt="$2">$1</a>');
+    
+    return txt;
+	},
+	
+	_UIreplaceTweet:function(){
 		var $ul = $('.tweets ul');
 		$ul.find('li:first').detach().appendTo($ul);
 		$('.tweets ul').css('margin-left', 0);
@@ -135,7 +151,7 @@ var Trickle = {
 		
 		var ctx = this;
 		setTimeout(function(){
-			ctx._replaceTweet();
+			ctx._UIreplaceTweet();
 			ctx.nextTweet();
 		}, 9000);
 	},
@@ -157,6 +173,38 @@ var Trickle = {
 	_ucFirst:function(str){
 	  return str.charAt(0).toUpperCase() + str.substr(1);
 	},
+	
+	//Source: https://github.com/FGRibreau/preg_replace---preg_replace_callback-in-javascript
+	_preg_replace_callback: function(pattern, callback, subject, limit, count){
+  	limit = !limit?-1:limit;
+
+  	var _flag = pattern.substr(pattern.lastIndexOf(pattern[0])+1),
+  		_pattern = pattern.substr(1,pattern.lastIndexOf(pattern[0])-1),
+  		reg = new RegExp(_pattern,_flag),
+  		rs = null,
+  		res = [],
+  		x = 0,
+  		ret = subject;
+
+  	if(limit === -1){
+  		var tmp = [];
+
+  		do{
+  			tmp = reg.exec(subject);
+  			if(tmp !== null){
+  				res.push(tmp);
+  			}
+  		}while(tmp !== null && _flag.indexOf('g') !== -1)
+  	}
+  	else{
+  		res.push(reg.exec(subject));
+  	}
+
+  	for(x = res.length-1; x > -1; x--){//explore match
+  		ret = ret.replace(res[x][0],callback(res[x]));
+  	}
+  	return ret;
+  },
 	
 	_debug:function(){
 		if(!this.PROD)

@@ -40,7 +40,7 @@ if(!isset($_GET['debug']) && (!strstr($_SERVER['HTTP_USER_AGENT'],'android') && 
 </div>
 
 <script id="tweetTemplate" type="text/x-jquery-tmpl">
-    <quote>${text}</quote>
+    <quote>{{html text}}</quote>
 	<p>@${screen_name}</p>
 </script>
 
