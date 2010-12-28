@@ -76,31 +76,31 @@ var Trickle = {
 		
 	},
 	
-	getTweets_onSuccess: function(data){
-		this._sinceId = data.since_id;	
+  	getTweets_onSuccess: function(data){
+  		this._sinceId = data.since_id;	
 		
-		if(data.results.length > 1){	
-			this._debug('data Ok', data);
-			this._tweets = data.results;
+  		if(data.results.length > 1){	
+  			this._debug('data Ok', data);
+  			this._tweets = data.results;
 			
-			this._preloadNextTweet();
-			this.nextTweet();
+  			this._preloadNextTweet();
+  			this.nextTweet();
 			
-		} else {
+  		} else {
 			
-			if(this._tweets == null){
-				alert('Nothing found. Try another keywords');
+  			if(this._tweets == null){
+  				alert('Nothing found. Try another keywords');
 				
-				$('.iForm').show();
-				this.$tweets.find('ul').hide();
-				return;
-			}
+  				$('.iForm').show();
+  				this.$tweets.find('ul').hide();
+  				return;
+  			}
 			
-			//Wait 5sec before restarting requests.
-			var ctx = this;
-			setTimeout(function(){ctx.getTweets();}, 5000);
-		}
-	},
+  			//Wait 5sec before restarting requests.
+  			var ctx = this;
+  			setTimeout(function(){ctx.getTweets();}, 5000);
+  		}
+  	},
 	
 	//Charge dans le second LI le tweet
 	_preloadNextTweet:function(){
