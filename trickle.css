@@ -134,17 +134,23 @@ input, select {
 		-webkit-box-sizing: border-box;
 		box-sizing: border-box;
 		overflow:hidden;
+		
+		-moz-background-size: contain;
+		-webkit-background-size: contain;
+    background-size: contain;
 	}
 
   	.tweets quote{
-  		font-size: 32px;
-  		font-weight: 700;
-  		letter-spacing: -0.05em;
-  		word-spacing: -0.008em;
-  		line-height: 1.02em;
-  		word-wrap: break-word;
-  		margin:10px;
-  		display:block;
+  		background: none repeat scroll 0 0 rgba(0, 0, 0, 0.3);
+      display: block;
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.05em;
+      line-height: 1.02em;
+      margin: 10px;
+      padding: 5px 0;
+      word-spacing: -0.008em;
+      word-wrap: break-word;
   	}
   	
   	  .tweets quote a{
@@ -174,7 +180,7 @@ Source:http://css3wizardry.com/2010/07/26/iphone-buttons-without-border-images/
 	color: #ffffff;
 	font: bold 16px/20px Helvetica, sans-serif;
 	text-decoration: none;
-	text-shadow: 1px 1px 1px #000;
+	text-shadow: 1px 1px 0px #000;
 	text-transform: capitalize;
 	display: inline-block;
 	font-size: 16px;
@@ -187,7 +193,7 @@ Source:http://css3wizardry.com/2010/07/26/iphone-buttons-without-border-images/
   	display: inline-block;
   	-webkit-border-radius: 12px;
   	-webkit-box-shadow: 2px 2px 3px #999; 
-  	border: solid 3px rgb(110,110,110);
+  	border: solid 0px rgb(110,110,110);
   	background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(86,213,255,0.90)), color-stop(0.5, rgba(59,145,255,0.70)), color-stop(0.5, rgba(0,114,255,0.70)), to(rgba(0,133,255,0.80))); 
   	color: #fff;
   	text-shadow: #000 0 1px 0;

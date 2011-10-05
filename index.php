@@ -1,11 +1,4 @@
-<?php
-//Brrrr User Agent sniffing...
-if(!isset($_GET['debug']) && (!strstr($_SERVER['HTTP_USER_AGENT'],'android') && !strstr($_SERVER['HTTP_USER_AGENT'],'iPhone') && !strstr($_SERVER['HTTP_USER_AGENT'],'iPod')))
-{
-	echo 'Please visit this website using your iPhone/AndroidPhone.<a href="http://fgribreau.com/">Back</a>';
-	exit();
-}
-?><!doctype html>
+<!doctype html>
 <html>
 <head>
 <title>Trickle clone</title>
@@ -19,6 +12,14 @@ if(!isset($_GET['debug']) && (!strstr($_SERVER['HTTP_USER_AGENT'],'android') && 
 </head>
 
 <body>
+<?php
+//Brrrr User Agent sniffing...
+if(!isset($_GET['debug']) && (!strstr($_SERVER['HTTP_USER_AGENT'],'android') && !strstr($_SERVER['HTTP_USER_AGENT'],'iPhone') && !strstr($_SERVER['HTTP_USER_AGENT'],'iPod')))
+{
+	echo '<p style="text-align:center;">Please visit this website using your iPhone/AndroidPhone.
+	<br/><a style="color:#ffffff" href="http://fgribreau.com/">Go Back</a></p>';
+}
+?>
 <form action="?" class="iForm" method="get">
 	<fieldset>
 		<ol>
@@ -40,7 +41,7 @@ if(!isset($_GET['debug']) && (!strstr($_SERVER['HTTP_USER_AGENT'],'android') && 
 </div>
 
 <script id="tweetTemplate" type="text/x-jquery-tmpl">
-    <quote>{{html text}}</quote>
+  <quote>{{html text}}</quote>
 	<p>@${screen_name}</p>
 </script>
 

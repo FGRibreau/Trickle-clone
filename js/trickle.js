@@ -3,7 +3,7 @@
 
 var Trickle = {
 	_keywords:null,
-	_ws:'http://search.twitter.com/search?q={keywords}&refresh=true&since_id={since_id}&callback=?',
+	_ws:'http://search.twitter.com/search.json?q={keywords}&refresh=true&since_id={since_id}&rpp=100&callback=?',
 	_sinceId:0,
 	_tweets:null,
 	
@@ -17,6 +17,8 @@ var Trickle = {
 	h:0,
 	
 	i:0,
+	
+	firstLoad:true,
 	
 	PROD:false,
 	
@@ -49,7 +51,7 @@ var Trickle = {
 		this._keywords = $.trim($('#twitter_keyworks').val());
 		
 		if(!this._keywords || this._keywords == null){
-			alert('Please fill all the fields.');
+			alert('Please fill all fields.');
 			return;
 		}
 		
@@ -64,8 +66,8 @@ var Trickle = {
 
 		$.ajax({
 			url: this._ws
-					.replace('{keywords}', encodeURIComponent(this._keywords))
-					.replace('{since_id}', this._sinceId),
+					.replace('{keywords}', encodeURIComponent(this._keywords+' (twitpic OR yfrog) filter:links'))
+					.replace('{since_id}', this.firstLoad ? '' : '&since_id='+this._sinceId),
 			dataType: 'json',
 			
 			success: $.proxy(this.getTweets_onSuccess, this),
@@ -73,6 +75,8 @@ var Trickle = {
 				alert('Twitter API Error: '+ textStatus);
 			}
 		});
+		
+		this.firstLoad = false;
 		
 	},
 	
@@ -89,16 +93,17 @@ var Trickle = {
   		} else {
 			
   			if(this._tweets == null){
-  				alert('Nothing found. Try another keywords');
-				
+  			  
+  				alert('Nothing found. Try another keywords (twitter forbid trending topic image search)');
   				$('.iForm').show();
   				this.$tweets.find('ul').hide();
+  				
   				return;
   			}
 			
-  			//Wait 5sec before restarting requests.
+  			//Wait 5sec before restarting to request.
   			var ctx = this;
-  			setTimeout(function(){ctx.getTweets();}, 5000);
+        setTimeout(function(){ctx.getTweets()}, 5000);
   		}
   	},
 	
@@ -108,8 +113,19 @@ var Trickle = {
 			return false;
 		}
 		
-		this.$tweets.find('li:last').html($.tmpl("tweetTpl", {
-			  text:       this._formatTweetText(this._tweets[this.i].text)
+		this._formatTweet(this._tweets[this.i]);
+		var $li = this.$tweets.find('li:last');
+		
+		if(this._tweets[this.i].img){
+		  $li.css('backgroundImage', 'url('+this._tweets[this.i].img+')');
+		  
+		  if(this._tweets[this.i+1] && this._tweets[this.i+1].img){
+		    new Image(this._tweets[this.i].img);
+		  }
+		}
+		
+		$li.html($.tmpl("tweetTpl", {
+			  text:       this._tweets[this.i].text
 			, screen_name:this._tweets[this.i].from_user
 		}));
 		
@@ -118,7 +134,9 @@ var Trickle = {
 		return true;
 	},
 	
-	_formatTweetText:function(txt){
+	_formatTweet:function(tweet){
+	  
+	  var txt = tweet.text;
 	  
   	txt = this._preg_replace_callback('/(https?\\:\\/\\/[^\\s]*)/ig', function _callback_link(matches){
     	var dom = matches[0].toLowerCase()
@@ -130,8 +148,19 @@ var Trickle = {
 
   	txt = txt.replace(/(\#[^\s,\.\:\)]*)/ig,'<strong class="st">$1</strong>');
   	txt = txt.replace(/(\@([^\s,\.\:\)\#]*))/ig,'<a href="http://twitter.com/$2" class="twScreenname" alt="$2">$1</a>');
+  	
+  	//Ajouter une image si possible
+  	var $a = $('<div>'+txt+'</div>').find('a');
+  	if($a.length > 0){
+  	  var toAppend = [];
+  	  
+  	  $a.each($.proxy(function(index, el){
+    	  this._LinkImagePreview.func($(el), tweet, this._LinkImagePreview, toAppend);
+    	}, this));
+  	}
     
-    return txt;
+    tweet.text = txt;
+    tweet.img = toAppend && toAppend.length > 0 ? toAppend[0] : false;
 	},
 	
 	_UIreplaceTweet:function(){
@@ -170,6 +199,80 @@ var Trickle = {
 	/**
 	HELPER
 	**/
+	
+	_LinkImagePreview: {
+	  
+	  _parseUri: (function(){
+	    var options = {
+        strictMode: false,
+        key: ["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","anchor"],
+        q:   {
+          name:   "queryKey",
+          parser: /(?:^|&)([^&=]*)=?([^&]*)/g
+        },
+        parser: {
+          strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
+          loose:  /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
+        }
+      };
+      
+	    return function(str) {
+        var	o  = options,
+        m   = o.parser[o.strictMode ? "strict" : "loose"].exec(str),
+        uri = {},
+        i   = 14;
+
+        while (i--) uri[o.key[i]] = m[i] === "null" ? "" : (m[i] || "");
+
+        uri[o.q.name] = {};
+        uri[o.key[12]].replace(o.q.parser, function ($0, $1, $2) {
+          if ($1) uri[o.q.name][$1] = $2;
+        });
+
+        return uri;
+      };
+
+      
+	    
+	  })(),
+    
+    transformations: {
+      standard: function (url) {
+        //thumb
+        return "http://"+url.host+"/show/medium"+url.path;
+      },
+      yfrog: function (url) {
+        return "http://"+url.host+url.path+":iphone";
+      },
+      
+      "i.imgur.com": function (url) {
+        var path = (url.path || "").replace(/(?:.jpg)?$/, "s.jpg");
+        return "http://"+url.host+path;
+      },
+      
+      "imgur.com": function (url) {
+        return this["i.imgur.com"](url);
+      }
+    },
+    domains: ["img.ly", "twitpic.com", "yfrog", "imgur.com", "i.imgur.com"],
+    
+    func: function imagePreview(a, tweet, plugin, toAppend) { // a is a jQuery object of the a-tag
+      var href = (a.attr("href") || "").replace('http://','').replace('www.','');
+      var domains = plugin.domains;
+      
+      for(var i = 0, len = domains.length; i < len; ++i) {
+        var domain = domains[i];
+        if(href.indexOf(domain) === 0) {
+          var url = plugin._parseUri(href)
+          ,   trans = plugin.transformations[domain] || plugin.transformations.standard
+          ,   previewURL = trans.call(plugin.transformations, url);
+
+          toAppend.push(previewURL);
+        }
+      }
+    }
+  },
+  
 	_ucFirst:function(str){
 	  return str.charAt(0).toUpperCase() + str.substr(1);
 	},
