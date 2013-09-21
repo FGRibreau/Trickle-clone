@@ -1,4 +1,4 @@
-Trickle Clone
+Trickle Clone [![Gittip](http://badgr.co/gittip/fgribreau.png)](https://www.gittip.com/fgribreau/)
 ==========
 
 Disclamer: This mobile app was developed in less than 3 hours and is only a proof of concept. Your iPhone/AndroidPhone may explose, burn, die...
